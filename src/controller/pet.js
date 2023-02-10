@@ -1,6 +1,6 @@
 let Pet = require("../model/pet");
 var FCM = require('fcm-node')
-const Server_key = 'AAAAXdg_118:APA91bEVZLvJ2g1mgi--7RqdkknlLqy9g-9VpsoAY2Ve8n9xd2tyMV2Ag-4V-OA6fPnTYZFXGur3nMd-qX7xdN2ryE0n4KvnngC-eUw7hsUMZQf6uWWNeIUN_v2cIDE64Pk_Hv88n7I6'
+const Server_key = 'AAAAi8hWcGE:APA91bFxz0NW6Xux6X912RY8FYCck0y6a-46nn10xIvSODwjVxhzEbDukdxS6Ak8yUfxCG5guauuJlEEgm4SKc2Cbq8K8KqTuKbROhKP0aopjZZYICe4TQK4Aq62aw1QvGUfldotAgCM'
 
 var fcm = new FCM(Server_key);
 /*
@@ -78,7 +78,7 @@ let updatePet = (req, res) => {
 let pushNoti = (req, res) => {
     try {
         var message = {
-          to: 'cfA5Luw8Rmexm3Hvk-nNOX:APA91bEGZptKxVkssWglYuzoBl_WGcu11fYnQ7urI47cOJEwxTuEts5ysZnkrHAJvjPHU3Sjm4hb_jdOmJJWN17Y6sfXMG_z_NvkQiccDXxAGVNwjy_gs4ggUduQkpoNmJp8X6jrDxSO',
+          to: 'c3UQ0f01SBqEX787s2CpHL:APA91bE5GprsIXqCeZZdiHflmcFuV5XTFiaLGAWaeZn1ZcwvKFJfyV9YOjAWHGEVKtG3MMy9F7wWsu8JDXgIbAqez7IEpKXcT0ya7L2yxyaZwNbZkMk_ywHpzkuhNt2Ly3xlWdDRJIio',
           data: { //you can send only notification or only data(or include both)
             title: 'test chết app',
             body: 'ddddddddddđ',
