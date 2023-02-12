@@ -2,46 +2,80 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import Pet from './router/pet'
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+// import User  from './router/routeruser'
+const admin = require("firebase-admin")
+const credentials = require("../key.json")
 
 const app = express()
 
 app.use(express.json())
 app.use(cors())
+
+admin.initializeApp({
+  credential: admin.credential.cert(credentials)
+})
+
+const db = admin.firestore()
+
+
 const server = app.listen(process.env.PORT, () => {
-    console.log(`connected port ${process.env.PORT}`)
+  console.log(`connected port ${process.env.PORT}`)
 })
 
 app.use('/api', Pet)
+// app.use('/api', User)
 
 
+app.post('/api/create', async (req, res) => {
+  try {
+    const userjson = {
+      userName: req.body.userName,
+      password: req.body.password,
+      name: req.body.name,
+      tokenDevice: req.body.tokenDevice,
+    }
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+    console.log(userjson)
+    // const response = db.collection("users").doc(id).set(userjson)// tuwj taoj id
+    const response = db.collection("User").add(userjson)// tuwj taoj id
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBW_rLJY59aHf-Shepr3ieUY12c7INlUZo",
-  authDomain: "demochatfirebase-2a209.firebaseapp.com",
-  databaseURL: "https://demochatfirebase-2a209-default-rtdb.firebaseio.com",
-  projectId: "demochatfirebase-2a209",
-  storageBucket: "demochatfirebase-2a209.appspot.com",
-  messagingSenderId: "600361562209",
-  appId: "1:600361562209:web:8d59e3a4e0a4dfe9ec7a20",
-  measurementId: "G-X5DLV5QBTX"
-};
+    res.send({
+      status: true,
+      message: "Đăng kí thành công"
+    })
 
-const appFireBase = initializeApp(firebaseConfig);
-const db = getFirestore(appFireBase);
-
-async function getCities(db) {
-    const citiesCol = collection(db, 'Messages');
-    const citySnapshot = await getDocs(citiesCol);
-    const cityList = citySnapshot.docs.map(doc => doc.data());
-    return cityList;
+  } catch (error) {
+    console.log(error)
+    res.send({
+      status: false,
+      message: "Đăng kí bại"
+    })
   }
+})
+
+app.post("/api/login", async (req, res) => {
+  try {
+    const userRequest = {
+      userName : req.body.userName,
+      password : req.body.password
+    }
+    const userRef = db.collection("User").doc(userRequest)
+    const response = await userRef.get()
+    res.send({
+      status: true,
+      message: "Đăng nhập thành công"
+    })
+
+  } catch (error) {
+    console.log(error)
+    res.send({
+      status: false,
+      message: "Thất bại"
+    })
+  }
+})
+
+
+
+
 
